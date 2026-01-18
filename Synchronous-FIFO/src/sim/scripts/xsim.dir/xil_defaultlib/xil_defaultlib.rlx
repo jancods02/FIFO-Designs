@@ -1,0 +1,7 @@
+0.7
+2020.2
+May 22 2025
+00:13:55
+C:/Users/aniru/FIFO-SV/FIFO-SV.sim/sim_1/behav/xsim/glbl.v,1741209010,verilog,,,,glbl,,uvm,,,,,,
+C:/Users/aniru/FIFO-SV/FIFO-SV.srcs/sim_1/new/tb.sv,1768326855,systemVerilog,,,,tb,,uvm,../../../../../../../Xilinx/2025.1/Vivado/data/rsb/busdef,,,,,
+C:/Users/aniru/FIFO-SV/FIFO-SV.srcs/sources_1/new/FIFO.sv,1768326839,systemVerilog,C:/Users/aniru/FIFO-SV/FIFO-SV.srcs/sim_1/new/tb.sv,C:/Users/aniru/FIFO-SV/FIFO-SV.srcs/sim_1/new/tb.sv,,$unit_FIFO_sv_2339517980;FIFO;fifo_if,,uvm,../../../../../../../Xilinx/2025.1/Vivado/data/rsb/busdef,,,,,

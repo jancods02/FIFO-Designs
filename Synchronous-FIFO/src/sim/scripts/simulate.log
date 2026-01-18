@@ -1,0 +1,67 @@
+Time resolution is 1 ps
+[DRV] : DUT Reset Done
+------------------------------------------
+[GEN] : Oper : 0 iteration : 1
+[DRV] : DATA READ
+[MON] : Wr:0 rd:1 din:0 dout:0 full:0 empty:1
+[SCO] : Wr:0 rd:1 din:0 dout:0 full:0 empty:1
+[SCO] : FIFO IS EMPTY
+--------------------------------------
+[GEN] : Oper : 1 iteration : 2
+[DRV] : DATA WRITE  data : 8
+[MON] : Wr:1 rd:0 din:8 dout:0 full:0 empty:1
+[SCO] : Wr:1 rd:0 din:8 dout:0 full:0 empty:1
+[SCO] : DATA STORED IN QUEUE :8
+--------------------------------------
+[GEN] : Oper : 0 iteration : 3
+[DRV] : DATA READ
+[MON] : Wr:0 rd:1 din:8 dout:8 full:0 empty:0
+[SCO] : Wr:0 rd:1 din:8 dout:8 full:0 empty:0
+[SCO] : DATA MATCH
+--------------------------------------
+[GEN] : Oper : 0 iteration : 4
+[DRV] : DATA READ
+[MON] : Wr:0 rd:1 din:8 dout:8 full:0 empty:1
+[SCO] : Wr:0 rd:1 din:8 dout:8 full:0 empty:1
+[SCO] : FIFO IS EMPTY
+--------------------------------------
+[GEN] : Oper : 0 iteration : 5
+[DRV] : DATA READ
+[MON] : Wr:0 rd:1 din:8 dout:8 full:0 empty:1
+[SCO] : Wr:0 rd:1 din:8 dout:8 full:0 empty:1
+[SCO] : FIFO IS EMPTY
+--------------------------------------
+[GEN] : Oper : 0 iteration : 6
+[DRV] : DATA READ
+[MON] : Wr:0 rd:1 din:8 dout:8 full:0 empty:1
+[SCO] : Wr:0 rd:1 din:8 dout:8 full:0 empty:1
+[SCO] : FIFO IS EMPTY
+--------------------------------------
+[GEN] : Oper : 0 iteration : 7
+[DRV] : DATA READ
+[MON] : Wr:0 rd:1 din:8 dout:8 full:0 empty:1
+[SCO] : Wr:0 rd:1 din:8 dout:8 full:0 empty:1
+[SCO] : FIFO IS EMPTY
+--------------------------------------
+[GEN] : Oper : 0 iteration : 8
+[DRV] : DATA READ
+[MON] : Wr:0 rd:1 din:8 dout:8 full:0 empty:1
+[SCO] : Wr:0 rd:1 din:8 dout:8 full:0 empty:1
+[SCO] : FIFO IS EMPTY
+--------------------------------------
+[GEN] : Oper : 1 iteration : 9
+[DRV] : DATA WRITE  data : 1
+[MON] : Wr:1 rd:0 din:1 dout:8 full:0 empty:1
+[SCO] : Wr:1 rd:0 din:1 dout:8 full:0 empty:1
+[SCO] : DATA STORED IN QUEUE :1
+--------------------------------------
+[GEN] : Oper : 0 iteration : 10
+[DRV] : DATA READ
+[MON] : Wr:0 rd:1 din:1 dout:1 full:0 empty:0
+[SCO] : Wr:0 rd:1 din:1 dout:1 full:0 empty:0
+[SCO] : DATA MATCH
+--------------------------------------
+---------------------------------------------
+Error Count :0
+---------------------------------------------
+$finish called at time : 690 ns : File "C:/Users/aniru/FIFO-SV/FIFO-SV.srcs/sim_1/new/tb.sv" Line 259
