@@ -5,3 +5,6 @@
 
 # Architecture
 <img width="917" height="372" alt="image" src="https://github.com/user-attachments/assets/1fdfc4e7-2267-4a3c-9468-3b4c133a4b2f" />
+
+# RTL To GDSII
+The backend design for Asynchronous FIFO was carried out with Genus as the synthesis tool and Innovus as layout implementation tool. DFT scan chains are also implemented refer to the test_scripts folder. 
