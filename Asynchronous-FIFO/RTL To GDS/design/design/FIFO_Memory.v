@@ -37,6 +37,6 @@ module FIFO_Memory #(parameter DEPTH = 64, DATA_WIDTH = 8, PTR_WIDTH = 8)(
         if(r_en && !empty) 
             dout <= fifo[b_rptr[PTR_WIDTH-1:0]];
         else
-            dout = {DATA_WIDTH{1'b0}};
+            dout <= {DATA_WIDTH{1'b0}};
     end
 endmodule

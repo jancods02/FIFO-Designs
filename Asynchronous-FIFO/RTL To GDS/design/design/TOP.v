@@ -39,12 +39,28 @@ module asynchronous_fifo #(parameter DEPTH=64, DATA_WIDTH=8) (
   wire [PTR_WIDTH:0] g_wptr_sync, g_rptr_sync;
   wire [PTR_WIDTH:0] b_wptr, b_rptr;
   wire [PTR_WIDTH:0] g_wptr, g_rptr;
-  wire [PTR_WIDTH-1:0] waddr, raddr;
+  // wire [PTR_WIDTH-1:0] waddr, raddr;
 
   synchronizer #(PTR_WIDTH) sync_wptr (rclk, rst, g_wptr, g_wptr_sync); //write pointer to read clock domain
   synchronizer #(PTR_WIDTH) sync_rptr (wclk, rst, g_rptr, g_rptr_sync); //read pointer to write clock domain 
   wptr_handler #(PTR_WIDTH) wptr_h(wclk, rst, w_en,g_rptr_sync,b_wptr,g_wptr,full);
   rptr_handler #(PTR_WIDTH) rptr_h(rclk, rst, r_en,g_wptr_sync,b_rptr,g_rptr,empty);
-  FIFO_Memory fifom(wclk, w_en, rclk, r_en,b_wptr, b_rptr, data_in,full,empty, data_out);
+// Explicitly pass parameters and map ports by name to prevent floating 'Z' bits
+  FIFO_Memory #(
+      .DEPTH(DEPTH),
+      .DATA_WIDTH(DATA_WIDTH),
+      .PTR_WIDTH(PTR_WIDTH) 
+  ) fifom (
+      .wclk(wclk), 
+      .w_en(w_en), 
+      .rclk(rclk), 
+      .r_en(r_en),
+      .b_wptr(b_wptr), 
+      .b_rptr(b_rptr), 
+      .din(data_in),
+      .full(full),
+      .empty(empty), 
+      .dout(data_out)
+  );
   
 endmodule

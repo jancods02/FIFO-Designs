@@ -3,76 +3,97 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 10.01.2026 20:22:27
+// Create Date: 17.07.2026
 // Design Name: 
-// Module Name: FIFO_tb
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
+// Module Name: tb_async_fifo
+// Description: Verification for Write Freq (80MHz) > Read Freq (50MHz) 
+//              with a burst size of 120. Configured for DEPTH=64, DATA_WIDTH=8.
 //////////////////////////////////////////////////////////////////////////////////
-
-
 
 module tb_async_fifo();
 
-    parameter WIDTH = 4, DEPTH = 8;
+    // Parameters matching the top module defaults
+    parameter DEPTH = 64; 
+    parameter DATA_WIDTH = 8;
 
-    reg w_clk;
-    reg r_clk;
+    // Testbench signals
+    reg wclk;
+    reg rclk;
     reg rst;
-    reg wr_rq, rd_rq;
-    wire full, empty;
-    reg [WIDTH-1:0] wdata;
-    wire [WIDTH-1:0] rdata;
+    reg w_en;
+    reg r_en;
+    reg [DATA_WIDTH-1:0] data_in;
+    
+    wire [DATA_WIDTH-1:0] data_out;
+    wire full;
+    wire empty;
 
-    // Internal variables for FIFO verification
-    reg [WIDTH-1:0] fifo [0:DEPTH-1]; // Verification FIFO
-    reg [$clog2(DEPTH)-1:0] wptr = 0; // Write pointer
-    reg [$clog2(DEPTH)-1:0] rptr = 0;  // Read pointer
+    // Internal variables for behavioral verification
+    reg [DATA_WIDTH-1:0] fifo_tracker [0:DEPTH-1]; 
+    reg [$clog2(DEPTH)-1:0] wptr = 0; 
 
-    // Instantiate the FIFO top module
-    asynchronous_fifo #(DEPTH, WIDTH)as_fifo (w_clk, r_clk, rst, wr_rq, rd_rq, wdata, rdata, full, empty);
+    // Instantiate the asynchronous_fifo top module
+    asynchronous_fifo #(
+        .DEPTH(DEPTH), 
+        .DATA_WIDTH(DATA_WIDTH)
+    ) dut (
+        .wclk(wclk),
+        .rclk(rclk),
+        .rst(rst),
+        .w_en(w_en),
+        .r_en(r_en),
+        .data_in(data_in),
+        .data_out(data_out),
+        .full(full),
+        .empty(empty)
+    );
 
-    // Generate input clock (50 MHz = 20 ns period)
+    // Generate Write Clock: 80 MHz = 12.5 ns period (6.25 ns half-period)
     initial begin
-        w_clk = 0;
-        forever #10 w_clk = ~w_clk;
+        wclk = 0;
+        forever #6.25 wclk = ~wclk;
+    end
+
+    // Generate Read Clock: 50 MHz = 20.0 ns period (10.0 ns half-period)
+    initial begin
+        rclk = 0;
+        forever #10.0 rclk = ~rclk;
     end
 
     initial begin
-        r_clk = 0;
-        forever #16.67 r_clk = ~r_clk;
-    end
-
-    initial begin
+        // Initialize signals
         rst = 1;
-        wr_rq = 0;
-        rd_rq = 0;
-        wdata = 0;
-        #10 rst = 0;  
-        #20 rst = 1;  
-
-        #13 wr_rq=1;
-            repeat (150) begin
-                @(posedge w_clk);
-                if (!full) begin
-                    wdata = $random();           
-                    fifo[wptr] = wdata;     
-                    wptr = (wptr + 1) % DEPTH; 
-                end
-                            
-            end
-       forever begin
-        #10 rd_rq = 1;
-        #20 rd_rq = 1;
-       end    
+        w_en = 0;
+        r_en = 0;
+        data_in = 0;
+        #12.5 rst = 0;  
+        #25.0 rst = 1;  
+        #15; 
+        
+        // Burst Write operation: 120 items
+        w_en <= 1;
+        repeat (120) begin
+            data_in = $random();           
+            fifo_tracker[wptr] = data_in; 
+            @(posedge wclk);
+            wptr = (wptr + 1) % DEPTH; 
+            
+            while (full) @(posedge wclk); 
+        end
+        w_en <= 0; // Stop writing after burst
     end
+    
+    // Read operation (continuous reading as soon as data is available)
+    initial begin
+        #50; // Wait for reset and initial writes to propagate
+        forever begin
+            @(posedge rclk);
+            if (!empty) begin
+                r_en <= 1;
+            end else begin
+                r_en <= 0;
+            end
+        end    
+    end
+
 endmodule
